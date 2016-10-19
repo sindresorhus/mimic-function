@@ -7,12 +7,10 @@ module.exports = (to, from) => {
 		});
 	}
 
-	if (from.length) { // eslint-disable-line unicorn/explicit-length-check
-		Object.defineProperty(to, 'length', {
-			value: from.length,
-			configurable: true
-		});
-	}
+	Object.defineProperty(to, 'length', {
+		value: from.length,
+		configurable: true
+	});
 
 	if (from.displayName) {
 		to.displayName = from.displayName;
