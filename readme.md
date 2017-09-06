@@ -4,13 +4,11 @@
 
 Useful when you wrap a function in another function and like to preserve the original name and other properties.
 
-
 ## Install
 
 ```
 $ npm install --save mimic-fn
 ```
-
 
 ## Usage
 
@@ -21,7 +19,7 @@ function foo() {}
 foo.unicorn = '🦄';
 
 function wrapper() {
-	return foo() {};
+  return foo() {};
 }
 
 console.log(wrapper.name);
@@ -35,7 +33,6 @@ console.log(wrapper.name);
 console.log(wrapper.unicorn);
 //=> '🦄'
 ```
-
 
 ## API
 
@@ -55,11 +52,9 @@ Type: `Function`
 
 Function to mimic.
 
-
 ## Related
 
 - [rename-fn](https://github.com/sindresorhus/rename-fn) - Rename a function
-
 
 ## License
 
