@@ -37,7 +37,7 @@ console.log(wrapper.unicorn);
 
 console.log(wrapper.toString());
 //=> '/* function wrapper() {
-//    	return foo() {};
+//		return foo() {};
 // 	} */
 // 	function foo() {}'
 ```
