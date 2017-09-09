@@ -34,6 +34,12 @@ console.log(wrapper.name);
 
 console.log(wrapper.unicorn);
 //=> '🦄'
+
+console.log(wrapper.toString());
+//=> '/* function wrapper() {
+//    		return foo() {};
+// 		} */
+// 		function foo() {}'
 ```
 
 
