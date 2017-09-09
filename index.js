@@ -1,5 +1,5 @@
 'use strict';
-const _ = require('lodash');
+const toString = require('lodash/toString');
 
 module.exports = (to, from) => {
 	// TODO: use `Reflect.ownKeys()` when targeting Node.js 6
@@ -7,7 +7,7 @@ module.exports = (to, from) => {
 		Object.defineProperty(to, prop, Object.getOwnPropertyDescriptor(from, prop));
 	}
 
-	const aux = _.toString(to);
+	const aux = toString(to);
 	to.toString = function () {
 		const comment = `/* ${aux} */ \n	${from}`;
 		return comment;
