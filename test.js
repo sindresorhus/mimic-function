@@ -3,25 +3,30 @@ import test from 'ava';
 import m from './';
 
 test(t => {
-    const symbol = Symbol('🦄');
+	const symbol = Symbol('🦄');
 
-    function foo(bar) {} // eslint-disable-line no-unused-vars
-    foo.unicorn = '🦄';
-    foo[symbol] = '✨';
+	function foo(bar) {} // eslint-disable-line no-unused-vars
+	foo.unicorn = '🦄';
+	foo[symbol] = '✨';
 
-    function wrapper() {
-        const x = 'hello world';
-        console.log(x);
-    }
+	function wrapper() {
+		return 1;
+	}
 
-    t.is(foo.name, 'foo');
+	t.is(foo.name, 'foo');
 
-    m(wrapper, foo);
+	m(wrapper, foo);
 
-    t.is(wrapper.name, 'foo');
-    t.is(wrapper.length, 1);
-    t.is(wrapper.unicorn, '🦄');
-    t.is(wrapper[symbol], '✨');
+	t.is(wrapper.name, 'foo');
+	t.is(wrapper.length, 1);
+	t.is(wrapper.unicorn, '🦄');
+	t.is(wrapper[symbol], '✨');
 
-    console.log(wrapper.toString());
+	const expected =
+	`/* function wrapper() {
+		return 1;
+	} */ 
+	function foo(bar) {}`;
+
+	t.is(wrapper.toString(), expected);
 });
