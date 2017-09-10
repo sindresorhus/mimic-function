@@ -24,7 +24,7 @@ test(t => {
 	const expected =
 	`/* function wrapper() {
 		return 1;
-	} */ 
+	} */
 	function foo(bar) {}`;
 
 	t.is(wrapper.toString(), expected);
