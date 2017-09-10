@@ -33,14 +33,14 @@
     "infer",
     "change"
   ],
+  "dependencies": {
+    "lodash": "^4.17.4"
+  },
   "devDependencies": {
     "ava": "*",
     "xo": "*"
   },
   "xo": {
     "esnext": true
-  },
-  "dependencies": {
-    "lodash": "^4.17.4"
   }
 }
