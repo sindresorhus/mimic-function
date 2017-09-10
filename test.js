@@ -1,4 +1,3 @@
-/* eslint new-cap: ["error", { "newIsCap": false }] */
 import test from 'ava';
 import m from './';
 
