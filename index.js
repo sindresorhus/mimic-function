@@ -9,7 +9,7 @@ module.exports = (to, from) => {
 
 	const aux = toString(to);
 	to.toString = function () {
-		const comment = `/* ${aux} */ \n	${from}`;
+		const comment = `/* ${aux} */\n\t${from}`;
 		return comment;
 	};
 };
