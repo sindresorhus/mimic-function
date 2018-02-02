@@ -43,6 +43,8 @@ It will copy over the properties `name`, `length`, `displayName`, and any custom
 
 ### mimicFn(to, from)
 
+It will modify `to` and return it.
+
 #### to
 
 Type: `Function`

@@ -12,7 +12,7 @@ test(t => {
 
 	t.is(foo.name, 'foo');
 
-	m(wrapper, foo);
+	t.is(m(wrapper, foo), wrapper);
 
 	t.is(wrapper.name, 'foo');
 	t.is(wrapper.length, 1);
