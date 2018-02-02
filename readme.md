@@ -8,7 +8,7 @@ Useful when you wrap a function in another function and like to preserve the ori
 ## Install
 
 ```
-$ npm install --save mimic-fn
+$ npm install mimic-fn
 ```
 
 
