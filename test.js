@@ -1,7 +1,7 @@
 import test from 'ava';
 import m from '.';
 
-test(t => {
+test('main', t => {
 	const symbol = Symbol('🦄');
 
 	function foo(bar) {} // eslint-disable-line no-unused-vars
