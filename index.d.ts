@@ -3,7 +3,7 @@
  *
  * @param to - Mimicking function.
  * @param from - Function to mimic.
- * @returns The modified `to`.
+ * @returns The modified `to` function.
  */
 export default function mimicFn<
 	ArgumentsType extends unknown[],

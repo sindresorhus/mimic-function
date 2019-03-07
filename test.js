@@ -1,5 +1,5 @@
 import test from 'ava';
-import m from '.';
+import mimickFn from '.';
 
 test('main', t => {
 	const symbol = Symbol('🦄');
@@ -12,7 +12,7 @@ test('main', t => {
 
 	t.is(foo.name, 'foo');
 
-	t.is(m(wrapper, foo), wrapper);
+	t.is(mimickFn(wrapper, foo), wrapper);
 
 	t.is(wrapper.name, 'foo');
 	t.is(wrapper.length, 1);
