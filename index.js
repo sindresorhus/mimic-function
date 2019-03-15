@@ -1,18 +1,18 @@
 'use strict';
 
-const mimicFn = (to, from, {length: getLength} = {}) => {
+const mimicFn = (to, from, {length} = {}) => {
 	for (const prop of Reflect.ownKeys(from)) {
-		Object.defineProperty(to, prop, getFuncProp(from, prop, getLength));
+		Object.defineProperty(to, prop, getFuncProp(from, prop, length));
 	}
 
 	return to;
 };
 
-const getFuncProp = (func, prop, getLength) => {
+const getFuncProp = (func, prop, length) => {
 	const descriptor = Object.getOwnPropertyDescriptor(func, prop);
 
-	if (prop === 'length' && getLength !== undefined) {
-		return getLengthProp(descriptor, getLength);
+	if (prop === 'length' && length !== undefined) {
+		return getLengthProp(descriptor, length);
 	}
 
 	return descriptor;
@@ -20,12 +20,12 @@ const getFuncProp = (func, prop, getLength) => {
 
 // The function `length` can be changed with the `length` option, which is a
 // function that takes the function `length` as input and returns it.
-const getLengthProp = (descriptor, getLength) => {
-	if (typeof getLength !== 'function') {
+const getLengthProp = (descriptor, length) => {
+	if (typeof length !== 'function') {
 		return descriptor;
 	}
 
-	const newLength = getLength(descriptor.value);
+	const newLength = length(descriptor.value);
 
 	if (!Number.isInteger(newLength)) {
 		return descriptor;
