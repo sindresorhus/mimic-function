@@ -35,7 +35,8 @@ declare const mimicFn: {
 		FunctionType extends (...arguments: ArgumentsType) => ReturnType
 	>(
 		to: (...arguments: ArgumentsType) => ReturnType,
-		from: FunctionType
+		from: FunctionType,
+		options?: Options
 	): FunctionType;
 
 	// TODO: Remove this for the next major release, refactor the whole definition to:
@@ -50,5 +51,14 @@ declare const mimicFn: {
 	// export = mimicFn;
 	default: typeof mimicFn;
 };
+
+export interface Options {
+	/**
+	 * Modify `Function.length`
+	 *
+	 * @default Use the same `Function.length`
+	 */
+	readonly length?: (length: number) => number;
+}
 
 export = mimicFn;

@@ -41,7 +41,7 @@ console.log(wrapper.unicorn);
 
 It will copy over the properties `name`, `length`, `displayName`, and any custom properties you may have set.
 
-### mimicFn(to, from)
+### mimicFn(to, from, [options])
 
 Modifies the `to` function and returns it.
 
@@ -57,6 +57,34 @@ Type: `Function`
 
 Function to mimic.
 
+#### options
+
+Type: `Object`
+
+##### length
+
+Type: `Function`
+
+Modifies the function's `length` property. Useful when `from` and `to` do not
+have the same number of arguments. This happens for example when binding or
+currying.
+
+```js
+const mimicFn = require('mimic-fn');
+
+const identity = value => value;
+const getTrue = identity.bind(null, true);
+
+mimicFn(getTrue, identity, { length: len => len - 1 });
+console.log(getTrue.name);
+//=> 'identity'
+
+console.log(identity.length);
+//=> 1
+
+console.log(getTrue.length);
+//=> 0
+```
 
 ## Related
 
