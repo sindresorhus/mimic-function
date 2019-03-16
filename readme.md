@@ -21,7 +21,7 @@ function foo() {}
 foo.unicorn = '🦄';
 
 function wrapper() {
-	return foo() {};
+	return foo();
 }
 
 console.log(wrapper.name);
