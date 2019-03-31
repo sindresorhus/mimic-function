@@ -61,6 +61,7 @@ Function to mimic.
 ## Related
 
 - [rename-fn](https://github.com/sindresorhus/rename-fn) - Rename a function
+- [keep-func-props](https://github.com/ehmicky/keep-func-props) - Wrap a function without changing its name, length and other properties
 
 
 ## License
