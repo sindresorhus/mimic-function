@@ -1,5 +1,5 @@
-import {expectType} from 'tsd-check';
-import mimicFn from '.';
+import {expectType} from 'tsd';
+import mimicFn = require('.');
 
 function foo(string: string) {
 	return false;
