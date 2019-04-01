@@ -4,6 +4,7 @@ declare const mimicFn: {
 
 	@param to - Mimicking function.
 	@param from - Function to mimic.
+	@param options - Options
 	@returns The modified `to` function.
 
 	@example
@@ -52,7 +53,7 @@ declare const mimicFn: {
 	default: typeof mimicFn;
 };
 
-export interface Options {
+interface Options {
 	/**
 	 * Modify `Function.length`
 	 *
