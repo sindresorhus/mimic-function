@@ -2,7 +2,10 @@
 
 const mimicFn = (to, from) => {
 	for (const prop of Reflect.ownKeys(from)) {
-		Object.defineProperty(to, prop, Object.getOwnPropertyDescriptor(from, prop));
+		const descriptor = Object.getOwnPropertyDescriptor(from, prop);
+		if (descriptor.writable === true) {
+			Object.defineProperty(to, prop, Object.getOwnPropertyDescriptor(from, prop));
+		}
 	}
 
 	return to;
