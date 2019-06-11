@@ -102,7 +102,7 @@ test('should not copy prototypes', t => {
 	t.is(wrapper.prototype, prototype);
 });
 
-test('should allow classes', t => {
+test('should allow classes to be copied', t => {
 	class wrapperClass {}
 	class fooClass {}
 	mimicFn(wrapperClass, fooClass);
