@@ -1,10 +1,20 @@
+declare namespace mimicFn {
+	interface Options {
+		/**
+		Modify `Function#length`
+
+		Default: Use the existing `Function#length`.
+		*/
+		readonly length?: (length: number) => number;
+	}
+}
+
 declare const mimicFn: {
 	/**
 	Make a function mimic another one. It will copy over the properties `name`, `length`, `displayName`, and any custom properties you may have set.
 
 	@param to - Mimicking function.
 	@param from - Function to mimic.
-	@param options - Options
 	@returns The modified `to` function.
 
 	@example
@@ -37,7 +47,7 @@ declare const mimicFn: {
 	>(
 		to: (...arguments: ArgumentsType) => ReturnType,
 		from: FunctionType,
-		options?: Options
+		options?: mimicFn.Options
 	): FunctionType;
 
 	// TODO: Remove this for the next major release, refactor the whole definition to:
@@ -52,14 +62,5 @@ declare const mimicFn: {
 	// export = mimicFn;
 	default: typeof mimicFn;
 };
-
-interface Options {
-	/**
-	 * Modify `Function.length`
-	 *
-	 * @default Use the same `Function.length`
-	 */
-	readonly length?: (length: number) => number;
-}
 
 export = mimicFn;
