@@ -93,10 +93,11 @@ test('should skip extra non-configurable non-writable properties', t => {
 	t.is(wrapper.extra, true);
 });
 
-test('should work with arrow functions', t => {
+test('should not copy prototypes', t => {
 	const wrapper = function () {};
-	const arrowFn = () => {};
-	mimicFn(wrapper, arrowFn);
+	const prototype = {};
+	wrapper.prototype = prototype;
+	mimicFn(wrapper, foo);
 
-	t.is(wrapper.prototype, arrowFn.prototype);
+	t.is(wrapper.prototype, prototype);
 });

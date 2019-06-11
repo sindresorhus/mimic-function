@@ -26,7 +26,9 @@ const removeProperty = (to, from, property) => {
 	}
 };
 
-const shouldCopyProperty = property => property !== 'length';
+// `Function#length` should reflect the parameters of `to` not `from` since we keep its body.
+// `Function#prototype` is non-writable and non-configurable so can never be modified.
+const shouldCopyProperty = property => property !== 'length' && property !== 'prototype';
 
 const mimicFn = (to, from) => {
 	const properties = Reflect.ownKeys(from).filter(shouldCopyProperty);
