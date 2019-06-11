@@ -1,6 +1,6 @@
 declare const mimicFn: {
 	/**
-	Make a function mimic another one. It will copy over the properties `name`, `displayName`, and any custom properties you may have set. `length` won't be copied.
+	Make a function mimic another one. It will copy over the properties `name`, `displayName`, and any custom properties you may have set. The `length` property won't be copied.
 
 	@param to - Mimicking function.
 	@param from - Function to mimic.
