@@ -1,21 +1,56 @@
 import test from 'ava';
-import mimickFn from '.';
+import mimicFn from '.';
 
-test('main', t => {
-	const symbol = Symbol('🦄');
+const foo = function (bar) {
+	return bar;
+};
 
-	function foo(bar) {} // eslint-disable-line no-unused-vars
-	foo.unicorn = '🦄';
-	foo[symbol] = '✨';
+foo.unicorn = '🦄';
 
-	function wrapper() {}
+const symbol = Symbol('🦄');
+foo[symbol] = '✨';
 
-	t.is(foo.name, 'foo');
+test('should return the wrapped function', t => {
+	const wrapper = function () {};
+	const returnValue = mimicFn(wrapper, foo);
 
-	t.is(mimickFn(wrapper, foo), wrapper);
+	t.is(returnValue, wrapper);
+});
 
-	t.is(wrapper.name, 'foo');
+test('should copy `name`', t => {
+	const wrapper = function () {};
+	mimicFn(wrapper, foo);
+
+	t.is(wrapper.name, foo.name);
+});
+
+test('should copy other properties', t => {
+	const wrapper = function () {};
+	mimicFn(wrapper, foo);
+
+	t.is(wrapper.unicorn, foo.unicorn);
+});
+
+test('should copy symbol properties', t => {
+	const wrapper = function () {};
+	mimicFn(wrapper, foo);
+
+	t.is(wrapper[symbol], foo[symbol]);
+});
+
+test('should not copy `length`', t => {
+	const wrapper = function () {};
+	mimicFn(wrapper, foo);
+
 	t.is(wrapper.length, 0);
-	t.is(wrapper.unicorn, '🦄');
-	t.is(wrapper[symbol], '✨');
+});
+
+test('should keep descriptors', t => {
+	const wrapper = function () {};
+	mimicFn(wrapper, foo);
+
+	const {length: fooLength, ...fooProperties} = Object.getOwnPropertyDescriptors(foo);
+	const {length: wrapperLength, ...wrapperProperties} = Object.getOwnPropertyDescriptors(wrapper);
+	t.deepEqual(fooProperties, wrapperProperties);
+	t.notDeepEqual(fooLength, wrapperLength);
 });
