@@ -15,7 +15,7 @@ test('main', t => {
 	t.is(mimickFn(wrapper, foo), wrapper);
 
 	t.is(wrapper.name, 'foo');
-	t.is(wrapper.length, 1);
+	t.is(wrapper.length, 0);
 	t.is(wrapper.unicorn, '🦄');
 	t.is(wrapper[symbol], '✨');
 });
