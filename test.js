@@ -77,8 +77,7 @@ test('should skip extra non-configurable non-writable properties', t => {
 	Object.defineProperty(wrapper, 'extra', {value: true, configurable: false, writable: false});
 	mimicFn(wrapper, foo);
 
-	t.true('extra' in wrapper);
-	t.not(wrapper.extra, undefined);
+	t.is(wrapper.extra, true);
 });
 
 test('should work with arrow functions', t => {
