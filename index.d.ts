@@ -1,5 +1,7 @@
 /**
-Make a function mimic another one. It will copy over the properties `name`, `displayName`, and any custom properties you may have set. The `length` property won't be copied.
+Modifies the `to` function to mimic the `from` function. Returns the `to` function.
+
+`name`, `displayName`, and any other properties of `from` are copied. The `length` property is not copied. Properties present in `to` but not in `from` are deleted.
 
 @param to - Mimicking function.
 @param from - Function to mimic.
