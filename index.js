@@ -1,11 +1,9 @@
 'use strict';
 
-const shouldCopyProp = function (prop) {
-	return prop !== 'length';
-};
+const shouldCopyProperty = property => property !== 'length';
 
 const mimicFn = (to, from) => {
-	const props = Reflect.ownKeys(from).filter(shouldCopyProp);
+	const props = Reflect.ownKeys(from).filter(shouldCopyProperty);
 
 	for (const prop of props) {
 		Object.defineProperty(to, prop, Object.getOwnPropertyDescriptor(from, prop));
