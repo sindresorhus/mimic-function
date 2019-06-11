@@ -18,10 +18,10 @@ const removeProperty = function (to, from, property) {
 const shouldCopyProperty = property => property !== 'length';
 
 const mimicFn = (to, from) => {
-	const props = Reflect.ownKeys(from).filter(shouldCopyProperty);
+	const properties = Reflect.ownKeys(from).filter(shouldCopyProperty);
 
-	for (const prop of props) {
-		Object.defineProperty(to, prop, Object.getOwnPropertyDescriptor(from, prop));
+	for (const property of properties) {
+		Object.defineProperty(to, property, Object.getOwnPropertyDescriptor(from, property));
 	}
 
 	Reflect.ownKeys(to).forEach(property => removeProperty(to, from, property));
