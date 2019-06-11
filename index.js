@@ -2,6 +2,15 @@
 
 const {hasOwnProperty} = Object.prototype;
 
+const changePrototype = (to, from) => {
+	const fromPrototype = Object.getPrototypeOf(from);
+	if (fromPrototype === Object.getPrototypeOf(to)) {
+		return;
+	}
+
+	Object.setPrototypeOf(to, fromPrototype);
+};
+
 // If `to` has properties that `from` does not have, remove them
 const removeProperty = (to, from, property) => {
 	if (hasOwnProperty.call(from, property)) {
@@ -25,6 +34,8 @@ const mimicFn = (to, from) => {
 	for (const property of properties) {
 		Object.defineProperty(to, property, Object.getOwnPropertyDescriptor(from, property));
 	}
+
+	changePrototype(to, from);
 
 	for (const property of Reflect.ownKeys(to)) {
 		removeProperty(to, from, property);

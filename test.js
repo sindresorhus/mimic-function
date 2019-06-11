@@ -12,6 +12,10 @@ foo.unicorn = '🦄';
 const symbol = Symbol('🦄');
 foo[symbol] = '✨';
 
+const parent = function () {};
+parent.inheritedProp = true;
+Object.setPrototypeOf(foo, parent);
+
 test('should return the wrapped function', t => {
 	const wrapper = function () {};
 	const returnValue = mimicFn(wrapper, foo);
@@ -55,6 +59,13 @@ test('should keep descriptors', t => {
 	const {length: wrapperLength, ...wrapperProperties} = Object.getOwnPropertyDescriptors(wrapper);
 	t.deepEqual(fooProperties, wrapperProperties);
 	t.notDeepEqual(fooLength, wrapperLength);
+});
+
+test('should copy inherited properties', t => {
+	const wrapper = function () {};
+	mimicFn(wrapper, foo);
+
+	t.is(wrapper.inheritedProp, foo.inheritedProp);
 });
 
 test('should delete extra configurable writable properties', t => {
