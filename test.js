@@ -63,7 +63,7 @@ test('should delete extra configurable writable properties', t => {
 	t.false('extra' in wrapper);
 });
 
-test('should delete extra non-configurable writable properties', t => {
+test('should set to undefined extra non-configurable writable properties', t => {
 	const wrapper = function () {};
 	Object.defineProperty(wrapper, 'extra', {value: true, configurable: false, writable: true});
 	mimicFn(wrapper, foo);
