@@ -13,5 +13,3 @@ const mimicFn = (to, from) => {
 };
 
 module.exports = mimicFn;
-// TODO: Remove this for the next major release
-module.exports.default = mimicFn;
