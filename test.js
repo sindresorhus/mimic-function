@@ -83,7 +83,6 @@ test('should not delete extra non-configurable non-writable properties', t => {
 
 test('should work with arrow functions', t => {
 	const wrapper = function () {};
-	wrapper.extra = true;
 	const arrowFn = () => {};
 	mimicFn(wrapper, arrowFn);
 
