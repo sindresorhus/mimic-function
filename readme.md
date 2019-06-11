@@ -41,7 +41,7 @@ console.log(wrapper.unicorn);
 
 It will copy over the properties `name`, `length`, `displayName`, and any custom properties you may have set.
 
-### mimicFn(to, from, [options])
+### mimicFn(to, from, options?)
 
 Modifies the `to` function and returns it.
 
@@ -59,7 +59,7 @@ Function to mimic.
 
 #### options
 
-Type: `Object`
+Type: `object`
 
 ##### length
 
