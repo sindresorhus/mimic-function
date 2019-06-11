@@ -49,13 +49,8 @@ test('should keep descriptors', t => {
 	const wrapper = function () {};
 	mimicFn(wrapper, foo);
 
-	const properties = Reflect.ownKeys(foo).filter(property => property !== 'length');
-	for (const property of properties) {
-		// TODO: use `Object.getOwnPropertyDescriptors()` after dropping support for
-		// Node 6
-		t.deepEqual(
-			Object.getOwnPropertyDescriptor(wrapper, property),
-			Object.getOwnPropertyDescriptor(foo, property)
-		);
-	}
+	const {length: fooLength, ...fooProperties} = Object.getOwnPropertyDescriptors(foo);
+	const {length: wrapperLength, ...wrapperProperties} = Object.getOwnPropertyDescriptors(wrapper);
+	t.deepEqual(fooProperties, wrapperProperties);
+	t.notDeepEqual(fooLength, wrapperLength);
 });
