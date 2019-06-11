@@ -67,7 +67,7 @@ test('"length" option: should ignore non-integer function length', t => {
 	t.is(wrapper.length, 1);
 });
 
-test('"length" option: should ignore if not a function', t => {
+test('`length` option: should ignore if not a function', t => {
 	const wrapper = function () {};
 	mimicFn(wrapper, foo, {length: 2});
 
