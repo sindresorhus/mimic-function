@@ -101,3 +101,12 @@ test('should not copy prototypes', t => {
 
 	t.is(wrapper.prototype, prototype);
 });
+
+test('should allow classes', t => {
+	class wrapperClass {}
+	class fooClass {}
+	mimicFn(wrapperClass, fooClass);
+
+	t.is(wrapperClass.name, fooClass.name);
+	t.not(wrapperClass.prototype, fooClass.prototype);
+});
