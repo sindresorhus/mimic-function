@@ -39,7 +39,7 @@ console.log(wrapper.unicorn);
 
 ## API
 
-It will copy over the properties `name`, `displayName`, and any custom properties you may have set. `length` won't be copied.
+It will copy over the properties `name`, `displayName`, and any custom properties you may have set. The `length` property won't be copied.
 
 ### mimicFn(to, from)
 
