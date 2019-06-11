@@ -27,7 +27,7 @@ const mimicFn = (to, from) => {
 	}
 
 	for (const property of Reflect.ownKeys(to)) {
-		removeProperty(to, from, property)
+		removeProperty(to, from, property);
 	}
 
 	return to;
