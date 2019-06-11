@@ -1,6 +1,8 @@
 import test from 'ava';
 import mimicFn from '.';
 
+const {hasOwnProperty} = Object.prototype;
+
 const foo = function (bar) {
 	return bar;
 };
@@ -60,7 +62,7 @@ test('should delete extra configurable writable properties', t => {
 	wrapper.extra = true;
 	mimicFn(wrapper, foo);
 
-	t.false('extra' in wrapper);
+	t.false(hasOwnProperty.call(wrapper, 'extra'));
 });
 
 test('should set to undefined extra non-configurable writable properties', t => {
@@ -68,7 +70,7 @@ test('should set to undefined extra non-configurable writable properties', t => 
 	Object.defineProperty(wrapper, 'extra', {value: true, configurable: false, writable: true});
 	mimicFn(wrapper, foo);
 
-	t.true('extra' in wrapper);
+	t.true(hasOwnProperty.call(wrapper, 'extra'));
 	t.is(wrapper.extra, undefined);
 });
 

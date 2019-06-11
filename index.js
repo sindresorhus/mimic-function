@@ -1,8 +1,10 @@
 'use strict';
 
+const {hasOwnProperty} = Object.prototype;
+
 // If `to` has properties that `from` does not have, remove them
 const removeProperty = (to, from, property) => {
-	if (property in from) {
+	if (hasOwnProperty.call(from, property)) {
 		return;
 	}
 
@@ -23,7 +25,7 @@ const mimicFn = (to, from) => {
 	for (const property of properties) {
 		Object.defineProperty(to, property, Object.getOwnPropertyDescriptor(from, property));
 	}
-	
+
 	for (const property of Reflect.ownKeys(to)) {
 		removeProperty(to, from, property)
 	}
