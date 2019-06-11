@@ -1,7 +1,7 @@
 /**
 Modifies the `to` function to mimic the `from` function. Returns the `to` function.
 
-`name`, `displayName`, and any other properties from `from` are copied. The `length` property is not copied. Properties present in `to` but not in `from` are deleted.
+`name`, `displayName`, and any other properties of `from` are copied. The `length` property is not copied. Properties present in `to` but not in `from` are deleted.
 
 @param to - Mimicking function.
 @param from - Function to mimic.
