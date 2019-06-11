@@ -43,7 +43,7 @@ console.log(wrapper.unicorn);
 
 Modifies the `to` function to mimic the `from` function. Returns the `to` function.
 
-`name`, `displayName`, and any other properties of `from` are copied. The `length` property is not copied. Properties present in `to` but not in `from` are deleted. Prototype, class and inherited properties are copied.
+`name`, `displayName`, and any other properties of `from` are copied. The `length` property is not copied. Properties present in `to` but not in `from` are deleted. Prototype, class, and inherited properties are copied.
 
 #### to
 
