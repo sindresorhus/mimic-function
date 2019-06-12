@@ -39,7 +39,7 @@ console.log(wrapper.unicorn);
 
 ## API
 
-### mimicFn(to, from)
+### mimicFn(to, from, options?)
 
 Modifies the `to` function to mimic the `from` function. Returns the `to` function.
 
@@ -57,6 +57,16 @@ Type: `Function`
 
 Function to mimic.
 
+#### options
+
+Type: `object`
+
+##### ignoreNonConfigurable
+
+Type: `boolean`<br>
+Default: `false`
+
+Skip modifying [non-configurable properties](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor#Description) instead of throwing an error.
 
 ## Related
 

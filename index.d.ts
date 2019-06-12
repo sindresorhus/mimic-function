@@ -1,3 +1,14 @@
+declare namespace mimicFn {
+	interface Options {
+		/**
+		Skip modifying [non-configurable properties](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor#Description) instead of throwing an error.
+
+		@default false
+		*/
+		readonly ignoreNonConfigurable?: boolean;
+	}
+}
+
 /**
 Modifies the `to` function to mimic the `from` function. Returns the `to` function.
 
@@ -36,7 +47,8 @@ declare function mimicFn<
 	FunctionType extends (...arguments: ArgumentsType) => ReturnType
 >(
 	to: (...arguments: ArgumentsType) => ReturnType,
-	from: FunctionType
+	from: FunctionType,
+	options?: mimicFn.Options,
 ): FunctionType;
 
 export = mimicFn;
