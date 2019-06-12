@@ -2,6 +2,17 @@
 
 const {hasOwnProperty} = Object.prototype;
 
+const copyProperty = (to, from, property) => {
+	// `Function#length` should reflect the parameters of `to` not `from` since we keep its body.
+	// `Function#prototype` is non-writable and non-configurable so can never be modified.
+	if (property === 'length' || property === 'prototype') {
+		return;
+	}
+
+	const descriptor = Object.getOwnPropertyDescriptor(from, property);
+	Object.defineProperty(to, property, descriptor);
+};
+
 const changePrototype = (to, from) => {
 	const fromPrototype = Object.getPrototypeOf(from);
 	if (fromPrototype === Object.getPrototypeOf(to)) {
@@ -26,15 +37,9 @@ const removeProperty = (to, from, property) => {
 	}
 };
 
-// `Function#length` should reflect the parameters of `to` not `from` since we keep its body.
-// `Function#prototype` is non-writable and non-configurable so can never be modified.
-const shouldCopyProperty = property => property !== 'length' && property !== 'prototype';
-
 const mimicFn = (to, from) => {
-	const properties = Reflect.ownKeys(from).filter(shouldCopyProperty);
-
-	for (const property of properties) {
-		Object.defineProperty(to, property, Object.getOwnPropertyDescriptor(from, property));
+	for (const property of Reflect.ownKeys(from)) {
+		copyProperty(to, from, property);
 	}
 
 	changePrototype(to, from);
