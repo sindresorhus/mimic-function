@@ -14,6 +14,8 @@ Modifies the `to` function to mimic the `from` function. Returns the `to` functi
 
 `name`, `displayName`, and any other properties of `from` are copied. The `length` property is not copied. Prototype, class, and inherited properties are copied.
 
+`to.toString()` will return the same as `from.toString()` but prepended with a `Wrapped with to()` comment.
+
 @param to - Mimicking function.
 @param from - Function to mimic.
 @returns The modified `to` function.

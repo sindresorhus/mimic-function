@@ -38,12 +38,31 @@ const changePrototype = (to, from) => {
 	Object.setPrototypeOf(to, fromPrototype);
 };
 
+const wrappedToString = (withName, fromBody) => `/* Wrapped ${withName}*/\n${fromBody}`;
+
+const toStringDescriptor = Object.getOwnPropertyDescriptor(Function.prototype, 'toString');
+const toStringName = Object.getOwnPropertyDescriptor(Function.prototype.toString, 'name');
+
+// We call `from.toString()` early (not lazily) to ensure `from` can be garbage collected.
+// We use `bind()` instead of a closure for the same reason.
+// Calling `from.toString()` early also allows caching it in case `to.toString()` is called several times.
+const changeToString = (to, from, name) => {
+	const withName = name === '' ? '' : `with ${name.trim()}() `;
+	const newToString = wrappedToString.bind(null, withName, from.toString());
+	// Ensure `to.toString.toString` is non-enumerable and has the same `same`
+	Object.defineProperty(newToString, 'name', toStringName);
+	Object.defineProperty(to, 'toString', {...toStringDescriptor, value: newToString});
+};
+
 const mimicFn = (to, from, {ignoreNonConfigurable = false} = {}) => {
+	const {name} = to;
+
 	for (const property of Reflect.ownKeys(from)) {
 		copyProperty(to, from, property, ignoreNonConfigurable);
 	}
 
 	changePrototype(to, from);
+	changeToString(to, from, name);
 
 	return to;
 };
