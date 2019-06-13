@@ -68,7 +68,7 @@ test('should copy inherited properties', t => {
 	t.is(wrapper.inheritedProp, foo.inheritedProp);
 });
 
-test('should delete extra configurable writable properties', t => {
+test('should delete extra configurable properties', t => {
 	const wrapper = function () {};
 	wrapper.extra = true;
 	mimicFn(wrapper, foo);
@@ -76,21 +76,22 @@ test('should delete extra configurable writable properties', t => {
 	t.false(hasOwnProperty.call(wrapper, 'extra'));
 });
 
-test('should set to undefined extra non-configurable writable properties', t => {
+test('should throw on extra non-configurable properties', t => {
 	const wrapper = function () {};
 	Object.defineProperty(wrapper, 'extra', {value: true, configurable: false, writable: true});
-	mimicFn(wrapper, foo);
 
-	t.true(hasOwnProperty.call(wrapper, 'extra'));
-	t.is(wrapper.extra, undefined);
+	t.throws(() => {
+		mimicFn(wrapper, foo);
+	});
 });
 
-test('should skip extra non-configurable non-writable properties', t => {
+test('should not throw on extra non-configurable properties with ignoreNonConfigurable', t => {
 	const wrapper = function () {};
-	Object.defineProperty(wrapper, 'extra', {value: true, configurable: false, writable: false});
-	mimicFn(wrapper, foo);
+	Object.defineProperty(wrapper, 'extra', {value: true, configurable: false, writable: true});
 
-	t.is(wrapper.extra, true);
+	t.notThrows(() => {
+		mimicFn(wrapper, foo, {ignoreNonConfigurable: true});
+	});
 });
 
 test('should not copy prototypes', t => {
