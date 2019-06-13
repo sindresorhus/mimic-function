@@ -55,9 +55,9 @@ const removeProperty = (to, from, property) => {
 	}
 };
 
-const mimicFn = (to, from, opts = {}) => {
+const mimicFn = (to, from, options = {}) => {
 	for (const property of Reflect.ownKeys(from)) {
-		copyProperty(to, from, property, opts);
+		copyProperty(to, from, property, options);
 	}
 
 	changePrototype(to, from);
