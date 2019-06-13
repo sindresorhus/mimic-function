@@ -163,6 +163,15 @@ test('should not modify toString.name', t => {
 	t.is(wrapper.toString.name, 'toString');
 });
 
+test('should work when toString() was patched by original function', t => {
+	const wrapper = function () {};
+	const bar = function () {};
+	bar.toString = () => 'bar.toString()';
+	mimicFn(wrapper, bar);
+
+	t.is(wrapper.toString(), `/* Wrapped with wrapper() */\n${bar.toString()}`);
+});
+
 // eslint-disable-next-line max-params
 const configurableTest = (t, shouldThrow, ignoreNonConfigurable, toDescriptor, fromDescriptor) => {
 	const wrapper = function () {};
