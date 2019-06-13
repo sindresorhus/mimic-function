@@ -1,4 +1,4 @@
-<img src="media/logo.svg" width="400">
+<img src="media/logo.svg" alt="mimic-fn" width="400">
 <br>
 
 [![Build Status](https://travis-ci.org/sindresorhus/mimic-fn.svg?branch=master)](https://travis-ci.org/sindresorhus/mimic-fn)
