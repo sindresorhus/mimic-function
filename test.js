@@ -1,8 +1,6 @@
 import test from 'ava';
 import mimicFn from '.';
 
-const {hasOwnProperty} = Object.prototype;
-
 const foo = function (bar) {
 	return bar;
 };
@@ -68,30 +66,12 @@ test('should copy inherited properties', t => {
 	t.is(wrapper.inheritedProp, foo.inheritedProp);
 });
 
-test('should delete extra configurable properties', t => {
+test('should not delete extra configurable properties', t => {
 	const wrapper = function () {};
 	wrapper.extra = true;
 	mimicFn(wrapper, foo);
 
-	t.false(hasOwnProperty.call(wrapper, 'extra'));
-});
-
-test('should throw on extra non-configurable properties', t => {
-	const wrapper = function () {};
-	Object.defineProperty(wrapper, 'extra', {value: true, configurable: false, writable: true});
-
-	t.throws(() => {
-		mimicFn(wrapper, foo);
-	});
-});
-
-test('should not throw on extra non-configurable properties with ignoreNonConfigurable', t => {
-	const wrapper = function () {};
-	Object.defineProperty(wrapper, 'extra', {value: true, configurable: false, writable: true});
-
-	t.notThrows(() => {
-		mimicFn(wrapper, foo, {ignoreNonConfigurable: true});
-	});
+	t.true(wrapper.extra);
 });
 
 test('should not copy prototypes', t => {

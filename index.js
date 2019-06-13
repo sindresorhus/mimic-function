@@ -1,7 +1,5 @@
 'use strict';
 
-const {hasOwnProperty} = Object.prototype;
-
 const copyProperty = (to, from, property, ignoreNonConfigurable) => {
 	// `Function#length` should reflect the parameters of `to` not `from` since we keep its body.
 	// `Function#prototype` is non-writable and non-configurable so can never be modified.
@@ -40,31 +38,12 @@ const changePrototype = (to, from) => {
 	Object.setPrototypeOf(to, fromPrototype);
 };
 
-// If `to` has properties that `from` does not have, remove them
-const removeProperty = (to, from, property, ignoreNonConfigurable) => {
-	if (hasOwnProperty.call(from, property)) {
-		return;
-	}
-
-	const {configurable} = Object.getOwnPropertyDescriptor(to, property);
-
-	if (!configurable && ignoreNonConfigurable) {
-		return;
-	}
-
-	delete to[property];
-};
-
 const mimicFn = (to, from, {ignoreNonConfigurable = false} = {}) => {
 	for (const property of Reflect.ownKeys(from)) {
 		copyProperty(to, from, property, ignoreNonConfigurable);
 	}
 
 	changePrototype(to, from);
-
-	for (const property of Reflect.ownKeys(to)) {
-		removeProperty(to, from, property, ignoreNonConfigurable);
-	}
 
 	return to;
 };
