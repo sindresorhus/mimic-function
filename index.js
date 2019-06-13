@@ -2,10 +2,12 @@
 
 const {hasOwnProperty} = Object.prototype;
 
+// `Function#length` should reflect the parameters of `to` not `from` since we keep its body.
+// `Function#prototype` is non-writable and non-configurable so can never be modified.
+const shouldSkipProperty = property => property === 'length' || property === 'prototype';
+
 const copyProperty = (to, from, property, ignoreNonConfigurable) => {
-	// `Function#length` should reflect the parameters of `to` not `from` since we keep its body.
-	// `Function#prototype` is non-writable and non-configurable so can never be modified.
-	if (property === 'length' || property === 'prototype') {
+	if (shouldSkipProperty(property)) {
 		return;
 	}
 
@@ -42,7 +44,7 @@ const changePrototype = (to, from) => {
 
 // If `to` has properties that `from` does not have, remove them
 const removeProperty = (to, from, property, ignoreNonConfigurable) => {
-	if (hasOwnProperty.call(from, property)) {
+	if (hasOwnProperty.call(from, property) || shouldSkipProperty(property)) {
 		return;
 	}
 

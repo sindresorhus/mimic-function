@@ -103,6 +103,14 @@ test('should not copy prototypes', t => {
 	t.is(wrapper.prototype, prototype);
 });
 
+test('should not delete prototypes', t => {
+	const wrapper = function () {};
+	const arrowFn = () => {};
+	mimicFn(wrapper, arrowFn);
+
+	t.not(wrapper.prototype, arrowFn.prototype);
+});
+
 test('should allow classes to be copied', t => {
 	class wrapperClass {}
 	class fooClass {}
