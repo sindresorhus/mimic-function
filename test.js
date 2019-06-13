@@ -110,3 +110,36 @@ test('should allow classes to be copied', t => {
 	t.is(wrapperClass.name, fooClass.name);
 	t.not(wrapperClass.prototype, fooClass.prototype);
 });
+
+// eslint-disable-next-line max-params
+const configurableTest = (t, shouldThrow, ignoreNonConfigurable, toDescriptor, fromDescriptor) => {
+	const wrapper = function () {};
+	Object.defineProperty(wrapper, 'conf', {value: true, configurable: false, writable: true, enumerable: true, ...toDescriptor});
+
+	const bar = function () {};
+	Object.defineProperty(bar, 'conf', {value: true, configurable: false, writable: true, enumerable: true, ...fromDescriptor});
+
+	if (shouldThrow) {
+		t.throws(() => {
+			mimicFn(wrapper, bar, {ignoreNonConfigurable});
+		});
+	} else {
+		t.notThrows(() => {
+			mimicFn(wrapper, bar, {ignoreNonConfigurable});
+		});
+	}
+};
+
+configurableTest.title = title => `should handle non-configurable properties: ${title}`;
+
+test('not throw with no changes', configurableTest, false, false, {}, {});
+test('not throw with writable value change', configurableTest, false, false, {}, {value: false});
+test('throw with non-writable value change', configurableTest, true, false, {writable: false}, {value: false, writable: false});
+test('not throw with non-writable value change and ignoreNonConfigurable', configurableTest, false, true, {writable: false}, {value: false, writable: false});
+test('throw with configurable change', configurableTest, true, false, {}, {configurable: true});
+test('not throw with configurable change and ignoreNonConfigurable', configurableTest, false, true, {}, {configurable: true});
+test('throw with writable change', configurableTest, true, false, {writable: false}, {writable: true});
+test('not throw with writable change and ignoreNonConfigurable', configurableTest, false, true, {writable: false}, {writable: true});
+test('throw with enumerable change', configurableTest, true, false, {}, {enumerable: false});
+test('not throw with enumerable change and ignoreNonConfigurable', configurableTest, false, true, {}, {enumerable: false});
+test('default ignoreNonConfigurable to false', configurableTest, true, undefined, {}, {enumerable: false});
