@@ -37,6 +37,9 @@ console.log(wrapper.name);
 
 console.log(wrapper.unicorn);
 //=> '🦄'
+
+console.log(String(wrapper));
+//=> '/* Wrapped with wrapper() */\nfunction foo() {}'
 ```
 
 
@@ -47,6 +50,8 @@ console.log(wrapper.unicorn);
 Modifies the `to` function to mimic the `from` function. Returns the `to` function.
 
 `name`, `displayName`, and any other properties of `from` are copied. The `length` property is not copied. Prototype, class, and inherited properties are copied.
+
+`to.toString()` will return the same as `from.toString()` but prepended with a `Wrapped with to()` comment.
 
 #### to
 
