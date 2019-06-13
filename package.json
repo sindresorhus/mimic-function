@@ -1,6 +1,6 @@
 {
 	"name": "mimic-fn",
-	"version": "2.1.0",
+	"version": "3.0.0",
 	"description": "Make a function mimic another one",
 	"license": "MIT",
 	"repository": "sindresorhus/mimic-fn",
