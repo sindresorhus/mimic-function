@@ -3,7 +3,11 @@
 const copyProperty = (to, from, property, ignoreNonConfigurable) => {
 	// `Function#length` should reflect the parameters of `to` not `from` since we keep its body.
 	// `Function#prototype` is non-writable and non-configurable so can never be modified.
-	if (property === 'length' || property === 'prototype') {
+	// `Function#arguments` and `Function#caller` are present in Reflect.ownKeys for some devices in react-native
+	if (property === 'length' ||
+		property === 'prototype' ||
+		property === 'arguments' ||
+		property === 'caller') {
 		return;
 	}
 
