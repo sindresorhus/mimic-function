@@ -7,7 +7,7 @@ const copyProperty = (to, from, property, ignoreNonConfigurable) => {
 		return;
 	}
 
-	// `Function#arguments` and `Function#caller` are present in Reflect.ownKeys for some devices in react-native
+	// `Function#arguments` and `Function#caller` should not be copied. They were reported to be present in `Reflect.ownKeys` for some devices in React Native (#41), so we explicitly ignore them here.
 	if (property === 'arguments' || property === 'caller') {
 		return;
 	}
