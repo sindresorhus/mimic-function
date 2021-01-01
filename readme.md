@@ -1,8 +1,6 @@
 <img src="media/logo.svg" alt="mimic-fn" width="400">
 <br>
 
-[![Build Status](https://travis-ci.org/sindresorhus/mimic-fn.svg?branch=master)](https://travis-ci.org/sindresorhus/mimic-fn)
-
 > Make a function mimic another one
 
 Useful when you wrap a function in another function and like to preserve the original name and other properties.
