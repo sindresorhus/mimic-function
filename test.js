@@ -1,5 +1,5 @@
 import test from 'ava';
-import mimicFn from '.';
+import mimicFunction from './index.js';
 
 const foo = function (bar) {
 	return bar;
@@ -16,42 +16,42 @@ Object.setPrototypeOf(foo, parent);
 
 test('should return the wrapped function', t => {
 	const wrapper = function () {};
-	const returnValue = mimicFn(wrapper, foo);
+	const returnValue = mimicFunction(wrapper, foo);
 
 	t.is(returnValue, wrapper);
 });
 
 test('should copy `name`', t => {
 	const wrapper = function () {};
-	mimicFn(wrapper, foo);
+	mimicFunction(wrapper, foo);
 
 	t.is(wrapper.name, foo.name);
 });
 
 test('should copy other properties', t => {
 	const wrapper = function () {};
-	mimicFn(wrapper, foo);
+	mimicFunction(wrapper, foo);
 
 	t.is(wrapper.unicorn, foo.unicorn);
 });
 
 test('should copy symbol properties', t => {
 	const wrapper = function () {};
-	mimicFn(wrapper, foo);
+	mimicFunction(wrapper, foo);
 
 	t.is(wrapper[symbol], foo[symbol]);
 });
 
 test('should not copy `length`', t => {
 	const wrapper = function () {};
-	mimicFn(wrapper, foo);
+	mimicFunction(wrapper, foo);
 
 	t.is(wrapper.length, 0);
 });
 
 test('should keep descriptors', t => {
 	const wrapper = function () {};
-	mimicFn(wrapper, foo);
+	mimicFunction(wrapper, foo);
 
 	const {length: fooLength, toString: fooToString, ...fooProperties} = Object.getOwnPropertyDescriptors(foo);
 	const {length: wrapperLength, toString: wrapperToString, ...wrapperProperties} = Object.getOwnPropertyDescriptors(wrapper);
@@ -62,7 +62,7 @@ test('should keep descriptors', t => {
 
 test('should copy inherited properties', t => {
 	const wrapper = function () {};
-	mimicFn(wrapper, foo);
+	mimicFunction(wrapper, foo);
 
 	t.is(wrapper.inheritedProp, foo.inheritedProp);
 });
@@ -70,7 +70,7 @@ test('should copy inherited properties', t => {
 test('should not delete extra configurable properties', t => {
 	const wrapper = function () {};
 	wrapper.extra = true;
-	mimicFn(wrapper, foo);
+	mimicFunction(wrapper, foo);
 
 	t.true(wrapper.extra);
 });
@@ -79,7 +79,7 @@ test('should not copy prototypes', t => {
 	const wrapper = function () {};
 	const prototype = {};
 	wrapper.prototype = prototype;
-	mimicFn(wrapper, foo);
+	mimicFunction(wrapper, foo);
 
 	t.is(wrapper.prototype, prototype);
 });
@@ -87,7 +87,7 @@ test('should not copy prototypes', t => {
 test('should allow classes to be copied', t => {
 	class wrapperClass {}
 	class fooClass {}
-	mimicFn(wrapperClass, fooClass);
+	mimicFunction(wrapperClass, fooClass);
 
 	t.is(wrapperClass.name, fooClass.name);
 	t.not(wrapperClass.prototype, fooClass.prototype);
@@ -95,7 +95,7 @@ test('should allow classes to be copied', t => {
 
 test('should patch toString()', t => {
 	const wrapper = function () {};
-	mimicFn(wrapper, foo);
+	mimicFunction(wrapper, foo);
 
 	t.is(wrapper.toString(), `/* Wrapped with wrapper() */\n${foo.toString()}`);
 });
@@ -103,7 +103,7 @@ test('should patch toString()', t => {
 test('should patch toString() with arrow functions', t => {
 	const wrapper = function () {};
 	const arrowFn = value => value;
-	mimicFn(wrapper, arrowFn);
+	mimicFunction(wrapper, arrowFn);
 
 	t.is(wrapper.toString(), `/* Wrapped with wrapper() */\n${arrowFn.toString()}`);
 });
@@ -111,7 +111,7 @@ test('should patch toString() with arrow functions', t => {
 test('should patch toString() with bound functions', t => {
 	const wrapper = function () {};
 	const boundFn = (() => {}).bind();
-	mimicFn(wrapper, boundFn);
+	mimicFunction(wrapper, boundFn);
 
 	t.is(wrapper.toString(), `/* Wrapped with wrapper() */\n${boundFn.toString()}`);
 });
@@ -120,7 +120,7 @@ test('should patch toString() with new Function()', t => {
 	const wrapper = function () {};
 	// eslint-disable-next-line no-new-func
 	const newFn = new Function('');
-	mimicFn(wrapper, newFn);
+	mimicFunction(wrapper, newFn);
 
 	t.is(wrapper.toString(), `/* Wrapped with wrapper() */\n${newFn.toString()}`);
 });
@@ -128,15 +128,15 @@ test('should patch toString() with new Function()', t => {
 test('should patch toString() several times', t => {
 	const wrapper = function () {};
 	const wrapperTwo = function () {};
-	mimicFn(wrapper, foo);
-	mimicFn(wrapperTwo, wrapper);
+	mimicFunction(wrapper, foo);
+	mimicFunction(wrapperTwo, wrapper);
 
 	t.is(wrapperTwo.toString(), `/* Wrapped with wrapperTwo() */\n/* Wrapped with wrapper() */\n${foo.toString()}`);
 });
 
 test('should keep toString() non-enumerable', t => {
 	const wrapper = function () {};
-	mimicFn(wrapper, foo);
+	mimicFunction(wrapper, foo);
 
 	const {enumerable} = Object.getOwnPropertyDescriptor(wrapper, 'toString');
 	t.false(enumerable);
@@ -144,21 +144,21 @@ test('should keep toString() non-enumerable', t => {
 
 test('should print original function with Function.prototype.toString.call()', t => {
 	const wrapper = function () {};
-	mimicFn(wrapper, foo);
+	mimicFunction(wrapper, foo);
 
 	t.is(Function.prototype.toString.call(wrapper), 'function () {}');
 });
 
 test('should work with String()', t => {
 	const wrapper = function () {};
-	mimicFn(wrapper, foo);
+	mimicFunction(wrapper, foo);
 
 	t.is(String(wrapper), `/* Wrapped with wrapper() */\n${foo.toString()}`);
 });
 
 test('should not modify toString.name', t => {
 	const wrapper = function () {};
-	mimicFn(wrapper, foo);
+	mimicFunction(wrapper, foo);
 
 	t.is(wrapper.toString.name, 'toString');
 });
@@ -167,7 +167,7 @@ test('should work when toString() was patched by original function', t => {
 	const wrapper = function () {};
 	const bar = function () {};
 	bar.toString = () => 'bar.toString()';
-	mimicFn(wrapper, bar);
+	mimicFunction(wrapper, bar);
 
 	t.is(wrapper.toString(), `/* Wrapped with wrapper() */\n${bar.toString()}`);
 });
@@ -182,11 +182,11 @@ const configurableTest = (t, shouldThrow, ignoreNonConfigurable, toDescriptor, f
 
 	if (shouldThrow) {
 		t.throws(() => {
-			mimicFn(wrapper, bar, {ignoreNonConfigurable});
+			mimicFunction(wrapper, bar, {ignoreNonConfigurable});
 		});
 	} else {
 		t.notThrows(() => {
-			mimicFn(wrapper, bar, {ignoreNonConfigurable});
+			mimicFunction(wrapper, bar, {ignoreNonConfigurable});
 		});
 	}
 };

@@ -5,18 +5,16 @@
 
 Useful when you wrap a function in another function and like to preserve the original name and other properties.
 
-
 ## Install
 
 ```
 $ npm install mimic-fn
 ```
 
-
 ## Usage
 
 ```js
-const mimicFn = require('mimic-fn');
+import mimicFunction from 'mimic-fn';
 
 function foo() {}
 foo.unicorn = '🦄';
@@ -28,7 +26,7 @@ function wrapper() {
 console.log(wrapper.name);
 //=> 'wrapper'
 
-mimicFn(wrapper, foo);
+mimicFunction(wrapper, foo);
 
 console.log(wrapper.name);
 //=> 'foo'
@@ -43,7 +41,7 @@ console.log(String(wrapper));
 
 ## API
 
-### mimicFn(to, from, options?)
+### mimicFunction(to, from, options?)
 
 Modifies the `to` function to mimic the `from` function. Returns the `to` function.
 
@@ -69,7 +67,7 @@ Type: `object`
 
 ##### ignoreNonConfigurable
 
-Type: `boolean`<br>
+Type: `boolean`\
 Default: `false`
 
 Skip modifying [non-configurable properties](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor#Description) instead of throwing an error.
@@ -78,7 +76,6 @@ Skip modifying [non-configurable properties](https://developer.mozilla.org/en-US
 
 - [rename-fn](https://github.com/sindresorhus/rename-fn) - Rename a function
 - [keep-func-props](https://github.com/ehmicky/keep-func-props) - Wrap a function without changing its name and other properties
-
 
 ---
 
