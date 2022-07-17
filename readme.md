@@ -1,4 +1,7 @@
-<img src="media/logo.svg" alt="mimic-fn" width="400">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="media/logo_dark.svg"/>
+  <img alt="mimic-fn logo" src="media/logo.svg" width="400"/>
+</picture>
 <br>
 
 > Make a function mimic another one
