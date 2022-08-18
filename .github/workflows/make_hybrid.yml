@@ -1,0 +1,110 @@
+name: Sync with upstream and patch # Do not rename without updating check_releases.yml too
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Which tag to build'
+        required: true
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x] # This should be LTS
+
+    permissions:
+      contents: read
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Load configuration
+      uses: cardinalby/export-env-action@v2
+      with:
+        envFile: '.github/config.env'
+        expand: 'true'
+
+    - name: Prepare repository
+      env:
+        TAG: ${{ github.event.inputs.tag }}
+      run: |
+        # Restore files to the state in the upstream repo, except our CI scripts and the readme
+        git remote add upstream ${UPSTREAM_REPO_URL}
+        git fetch upstream
+        # The tag without suffix only exists on upstream, so we check it out directly
+        git restore --source=$TAG -- . ':!.github' ':!readme.md'
+        ls -la
+
+    - name: Convert to CommonJS/ESM Hybrid
+      run: bash .github/make_hybrid.sh
+
+    - name: Test that both import and require work
+      run: |
+        mkdir __test
+        PACK_FILENAME=$(npm pack --silent --pack-destination __test)
+        cd __test
+        npm init -y
+        npm i $PACK_FILENAME
+
+        echo "Test import"
+        node ../${TEST_SCRIPT_ESM}
+
+        echo "Test require"
+        node ../${TEST_SCRIPT_CJS}
+
+        cd ..
+        rm -rf __test
+
+    - name: Remember changes for push
+      run: |
+        git add .
+        git diff --patch --staged > delta.patch
+
+    - name: Upload changes to cache
+      uses: actions/upload-artifact@v3
+      with:
+        name: delta
+        path: delta.patch
+        retention-days: 1 # We don't need this any longer than the workflow takes, but 1 day is the minimum
+
+  commit:
+    runs-on: ubuntu-latest
+    needs: [patch]
+
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Load configuration
+      uses: cardinalby/export-env-action@v2
+      with:
+        envFile: '.github/config.env'
+        expand: 'true'
+
+    - name: Download changes from cache
+      uses: actions/download-artifact@v3
+      with:
+        name: delta
+
+    - name: Push changes to repo
+      env:
+        TAG: ${{ github.event.inputs.tag }}
+      run: |
+        git apply delta.patch
+        rm delta.patch
+
+        git config --global user.name "${GIT_USER}"
+        git config --global user.email "${GIT_EMAIL}"
+
+        git add -A -- ':!.github/*' ':!readme.md'
+        git commit -m "update repository with upstream changes"
+        # our tags have a suffix to distinguish them from upstream
+        git tag "$TAG-cjs"
+
+        git push
+        git push origin "$TAG-cjs"

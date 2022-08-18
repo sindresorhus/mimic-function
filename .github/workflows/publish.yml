@@ -1,0 +1,37 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Which tag to build'
+        required: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x] # This should be LTS
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        # our tags have a suffix to distinguish them from upstream
+        ref: ${{ github.event.inputs.tag }}-cjs
+
+    # Do we need this step?
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - run: npm pack --dry-run
+    # - name: Publish package to npm
+      # shell: bash
+      # run: |
+        # npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
+        # npm whoami
+        # npm publish

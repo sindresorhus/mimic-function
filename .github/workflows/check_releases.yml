@@ -1,0 +1,62 @@
+name: Check upstream for new release
+on:
+  schedule:
+    # check each night at 1 AM
+    - cron: '00 01 * * *'
+  workflow_dispatch: {}
+
+jobs:
+  check-releases:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Load configuration
+      uses: cardinalby/export-env-action@v2
+      with:
+        envFile: '.github/config.env'
+        expand: 'true'
+
+    - name: Fetch existing tags
+      run: git fetch --tags origin
+
+    - id: check-version
+      name: Determine upstream version
+      uses: pozetroninc/github-action-get-latest-release@v0.5.0
+      with:
+        repository: ${{ env.UPSTREAM_REPO }}
+        excludes: prerelease,draft
+
+    - name: Check if tag exists locally
+      id: check-tag
+      run: |
+        RELEASE=${{ steps.check-version.outputs.release }}
+        echo "Latest release is: ${RELEASE}"
+        # our tags have a suffix to distinguish them from upstream
+        if git rev-parse -q --verify "refs/tags/${RELEASE}-cjs"; then
+          echo "Tag exists here"
+        else
+          echo "Tag does not exist here, triggering build..."
+          echo "::set-output name=tag::${RELEASE}"
+        fi
+
+    - name: Trigger build and wait
+      id: build
+      if: steps.check-tag.outputs.tag
+      uses: aurelien-baudet/workflow-dispatch@v2
+      with:
+        workflow: Sync with upstream and patch
+        token: ${{ secrets.REPO_ACCESS_TOKEN }}
+        inputs: '{"tag":"${{steps.check-tag.outputs.tag}}"}'
+        wait-for-completion: true
+        wait-for-completion-interval: 30s
+
+    - name: Publish new version
+      if: steps.check-tag.outputs.tag && steps.build.outputs.workflow-conclusion == 'success'
+      uses: aurelien-baudet/workflow-dispatch@v2
+      with:
+        workflow: Publish
+        token: ${{ secrets.REPO_ACCESS_TOKEN }}
+        inputs: '{"tag":"${{steps.check-tag.outputs.tag}}"}'
