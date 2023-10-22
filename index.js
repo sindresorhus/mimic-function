@@ -25,10 +25,10 @@ const copyProperty = (to, from, property, ignoreNonConfigurable) => {
 // - it is non-writable and its value is changed
 const canCopyProperty = function (toDescriptor, fromDescriptor) {
 	return toDescriptor === undefined || toDescriptor.configurable || (
-		toDescriptor.writable === fromDescriptor.writable &&
-		toDescriptor.enumerable === fromDescriptor.enumerable &&
-		toDescriptor.configurable === fromDescriptor.configurable &&
-		(toDescriptor.writable || toDescriptor.value === fromDescriptor.value)
+		toDescriptor.writable === fromDescriptor.writable
+		&& toDescriptor.enumerable === fromDescriptor.enumerable
+		&& toDescriptor.configurable === fromDescriptor.configurable
+		&& (toDescriptor.writable || toDescriptor.value === fromDescriptor.value)
 	);
 };
 
