@@ -1,11 +1,11 @@
-export interface Options {
+export type Options = {
 	/**
 	Skip modifying [non-configurable properties](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor#Description) instead of throwing an error.
 
 	@default false
 	*/
 	readonly ignoreNonConfigurable?: boolean;
-}
+};
 
 /**
 Modifies the `to` function to mimic the `from` function. Returns the `to` function.
@@ -44,7 +44,7 @@ console.log(wrapper.unicorn);
 export default function mimicFunction<
 	ArgumentsType extends unknown[],
 	ReturnType,
-	FunctionType extends (...arguments: ArgumentsType) => ReturnType
+	FunctionType extends (...arguments: ArgumentsType) => ReturnType,
 >(
 	to: (...arguments: ArgumentsType) => ReturnType,
 	from: FunctionType,
