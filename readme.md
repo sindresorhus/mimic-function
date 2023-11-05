@@ -1,23 +1,23 @@
 <picture>
 	<source media="(prefers-color-scheme: dark)" srcset="media/logo_dark.svg">
-	<img alt="mimic-fn logo" src="media/logo.svg" width="400">
+	<img alt="mimic-function logo" src="media/logo.svg" width="400">
 </picture>
 <br>
 
 > Make a function mimic another one
 
-Useful when you wrap a function in another function and like to preserve the original name and other properties.
+Useful when you wrap a function in another function and you would like to preserve the original name and other properties.
 
 ## Install
 
-```
-$ npm install mimic-fn
+```sh
+npm install mimic-function
 ```
 
 ## Usage
 
 ```js
-import mimicFunction from 'mimic-fn';
+import mimicFunction from 'mimic-function';
 
 function foo() {}
 foo.unicorn = '🦄';
@@ -40,7 +40,6 @@ console.log(wrapper.unicorn);
 console.log(String(wrapper));
 //=> '/* Wrapped with wrapper() */\nfunction foo() {}'
 ```
-
 
 ## API
 
@@ -79,15 +78,3 @@ Skip modifying [non-configurable properties](https://developer.mozilla.org/en-US
 
 - [rename-fn](https://github.com/sindresorhus/rename-fn) - Rename a function
 - [keep-func-props](https://github.com/ehmicky/keep-func-props) - Wrap a function without changing its name and other properties
-
----
-
-<div align="center">
-	<b>
-		<a href="https://tidelift.com/subscription/pkg/npm-mimic-fn?utm_source=npm-mimic-fn&utm_medium=referral&utm_campaign=readme">Get professional support for this package with a Tidelift subscription</a>
-	</b>
-	<br>
-	<sub>
-		Tidelift helps make open source sustainable for maintainers while giving companies<br>assurances about security, maintenance, and licensing for their dependencies.
-	</sub>
-</div>

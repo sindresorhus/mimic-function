@@ -1,9 +1,9 @@
 {
-	"name": "mimic-fn",
+	"name": "mimic-function",
 	"version": "4.0.0",
 	"description": "Make a function mimic another one",
 	"license": "MIT",
-	"repository": "sindresorhus/mimic-fn",
+	"repository": "sindresorhus/mimic-function",
 	"funding": "https://github.com/sponsors/sindresorhus",
 	"author": {
 		"name": "Sindre Sorhus",
@@ -11,7 +11,11 @@
 		"url": "https://sindresorhus.com"
 	},
 	"type": "module",
-	"exports": "./index.js",
+	"exports": {
+		"types": "./index.d.ts",
+		"default": "./index.js"
+	},
+	"sideEffects": false,
 	"engines": {
 		"node": ">=18"
 	},

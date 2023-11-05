@@ -20,7 +20,7 @@ Modifies the `to` function to mimic the `from` function. Returns the `to` functi
 
 @example
 ```
-import mimicFunction from 'mimic-fn';
+import mimicFunction from 'mimic-function';
 
 function foo() {}
 foo.unicorn = '🦄';
@@ -44,9 +44,9 @@ console.log(wrapper.unicorn);
 export default function mimicFunction<
 	ArgumentsType extends unknown[],
 	ReturnType,
-	FunctionType extends (...arguments: ArgumentsType) => ReturnType,
+	FunctionType extends (...arguments_: ArgumentsType) => ReturnType,
 >(
-	to: (...arguments: ArgumentsType) => ReturnType,
+	to: (...arguments_: ArgumentsType) => ReturnType,
 	from: FunctionType,
 	options?: Options,
 ): FunctionType;
