@@ -54,7 +54,7 @@ const changeToString = (to, from, name) => {
 	const newToString = wrappedToString.bind(null, withName, from.toString());
 	// Ensure `to.toString.toString` is non-enumerable and has the same `same`
 	Object.defineProperty(newToString, 'name', toStringName);
-	const {writable, enumerable, configurable} = toStringDescriptor;
+	const {writable, enumerable, configurable} = toStringDescriptor; // We destructue to avoid a potential `get` descriptor.
 	Object.defineProperty(to, 'toString', {value: newToString, writable, enumerable, configurable});
 };
 
