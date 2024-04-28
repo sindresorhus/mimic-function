@@ -102,27 +102,27 @@ test('should patch toString()', t => {
 
 test('should patch toString() with arrow functions', t => {
 	const wrapper = function () {};
-	const arrowFn = value => value;
-	mimicFunction(wrapper, arrowFn);
+	const arrowFunction = value => value;
+	mimicFunction(wrapper, arrowFunction);
 
-	t.is(wrapper.toString(), `/* Wrapped with wrapper() */\n${arrowFn.toString()}`);
+	t.is(wrapper.toString(), `/* Wrapped with wrapper() */\n${arrowFunction.toString()}`);
 });
 
 test('should patch toString() with bound functions', t => {
 	const wrapper = function () {};
-	const boundFn = (() => {}).bind();
-	mimicFunction(wrapper, boundFn);
+	const boundFunction = (() => {}).bind();
+	mimicFunction(wrapper, boundFunction);
 
-	t.is(wrapper.toString(), `/* Wrapped with wrapper() */\n${boundFn.toString()}`);
+	t.is(wrapper.toString(), `/* Wrapped with wrapper() */\n${boundFunction.toString()}`);
 });
 
 test('should patch toString() with new Function()', t => {
 	const wrapper = function () {};
 	// eslint-disable-next-line no-new-func
-	const newFn = new Function('');
-	mimicFunction(wrapper, newFn);
+	const newFunction = new Function('');
+	mimicFunction(wrapper, newFunction);
 
-	t.is(wrapper.toString(), `/* Wrapped with wrapper() */\n${newFn.toString()}`);
+	t.is(wrapper.toString(), `/* Wrapped with wrapper() */\n${newFunction.toString()}`);
 });
 
 test('should patch toString() several times', t => {
@@ -175,10 +175,22 @@ test('should work when toString() was patched by original function', t => {
 // eslint-disable-next-line max-params
 const configurableTest = (t, shouldThrow, ignoreNonConfigurable, toDescriptor, fromDescriptor) => {
 	const wrapper = function () {};
-	Object.defineProperty(wrapper, 'conf', {value: true, configurable: false, writable: true, enumerable: true, ...toDescriptor});
+	Object.defineProperty(wrapper, 'conf', {
+		value: true,
+		configurable: false,
+		writable: true,
+		enumerable: true,
+		...toDescriptor,
+	});
 
 	const bar = function () {};
-	Object.defineProperty(bar, 'conf', {value: true, configurable: false, writable: true, enumerable: true, ...fromDescriptor});
+	Object.defineProperty(bar, 'conf', {
+		value: true,
+		configurable: false,
+		writable: true,
+		enumerable: true,
+		...fromDescriptor,
+	});
 
 	if (shouldThrow) {
 		t.throws(() => {
