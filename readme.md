@@ -72,7 +72,7 @@ Type: `object`
 Type: `boolean`\
 Default: `false`
 
-Skip modifying [non-configurable properties](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor#Description) instead of throwing an error.
+Skip modifying [non-configurable properties](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor#Description) instead of throwing an error.
 
 ## Related
 
